@@ -27,7 +27,8 @@ const links = [
 ];
 
 const delayStart = 0.5;
-const delayInterval = 0.5;
+const delayInterval = localStorage.getItem("visited") ? 0.1 : 0.5;
+localStorage.setItem("visited", true);
 
 class App extends Component {
   render() {

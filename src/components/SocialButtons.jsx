@@ -3,7 +3,6 @@ import FontAwesome from "react-fontawesome";
 
 export class SocialButtons extends Component {
   render() {
-    console.log(this.props.delay);
     return (
       <div
         className="container SocialButtons"

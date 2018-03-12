@@ -11,7 +11,10 @@ export class Tagline extends Component {
     return (
       <h2 className="Tagline" style={taglineStyles}>
         {this.props.attributes.map((attr, i) => {
-          const delay = (this.props.delay + i / 1.5).toString();
+          const delay = (
+            this.props.delay +
+            i * this.props.delayInterval
+          ).toString();
           return <Tag key={i} delay={delay} text={attr} />;
         })}
       </h2>

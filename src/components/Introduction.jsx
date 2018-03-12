@@ -8,8 +8,11 @@ const styles = {
 
 export class Introduction extends Component {
   render() {
+    const myStyles = Object.assign({}, styles, {
+      animationDelay: this.props.delay + "s"
+    });
     return (
-      <h1 className="Introduction" style={styles}>
+      <h1 className="Introduction" style={myStyles}>
         {this.props.phrase}
       </h1>
     );

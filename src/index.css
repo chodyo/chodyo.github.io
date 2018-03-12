@@ -1,4 +1,4 @@
-/* latin */
+/* font definition: latin characters */
 @font-face {
   font-family: "Josefin Sans";
   font-style: normal;
@@ -11,6 +11,7 @@
     U + 2193, U + 2212, U + 2215, U + FEFF, U + FFFD;
 }
 
+/* general styling */
 body {
   margin: 0;
   padding: 0;
@@ -27,6 +28,7 @@ body {
   text-align: center;
 }
 
+/* set the color of the links, aka FontAwesome icons */
 a:link,
 a:visited,
 a:hover {
@@ -47,4 +49,21 @@ a:active {
 
 .resume a:active {
   color: #3e94e4;
+}
+
+/* page load animations */
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.Introduction,
+.Tag,
+.SocialButtons {
+  animation: fadein 1s;
+  animation-fill-mode: both;
 }

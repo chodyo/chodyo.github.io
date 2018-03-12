@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Introduction, Tagline, SocialButton } from "./components";
+import { Introduction, Tagline, SocialButtons } from "./components";
 
 const introduction = "Hi, my name is Cody!";
 const tags = [
@@ -26,25 +26,25 @@ const links = [
   }
 ];
 
+const delayStart = 0.5;
+const delayInterval = 0.5;
+
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Introduction phrase={introduction} />
+        <Introduction phrase={introduction} delay={delayStart} />
 
-        <Tagline attributes={tags} />
+        <Tagline
+          attributes={tags}
+          delay={delayStart + delayInterval * 1}
+          delayInterval={delayInterval}
+        />
 
-        <div className="container social-buttons">
-          {links.map(function(object, i) {
-            return (
-              <SocialButton
-                name={object.name}
-                icon={object.faIcon}
-                link={object.url}
-              />
-            );
-          })}
-        </div>
+        <SocialButtons
+          links={links}
+          delay={delayStart + delayInterval * (tags.length + 2)}
+        />
       </div>
     );
   }

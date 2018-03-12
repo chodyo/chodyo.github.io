@@ -1,3 +1,3 @@
-export * from './Introduction';
-export * from './Tagline';
-export * from './SocialButton';
+export * from "./Introduction";
+export * from "./Tagline";
+export * from "./SocialButtons";

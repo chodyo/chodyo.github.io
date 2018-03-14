@@ -14,6 +14,7 @@ export class SocialButtons extends Component {
               key={i}
               name={object.name}
               icon={object.faIcon}
+              color={object.iconActiveColor}
               link={object.url}
             />
           );
@@ -29,14 +30,31 @@ const style = {
 };
 
 class SocialButton extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { isHovered: false };
+  }
+
+  setButtonHovered = isHovered => {
+    this.setState({ isHovered: isHovered });
+  };
+
   render() {
     return (
-      <div className={"SocialButton " + this.props.name} style={style}>
+      <div
+        className={"SocialButton " + this.props.name}
+        style={style}
+        onMouseEnter={() => this.setButtonHovered(true)}
+        onMouseLeave={() => this.setButtonHovered(false)}
+      >
         <a href={this.props.link} target="_blank">
           <FontAwesome
             name={this.props.icon}
             className={this.props.name}
             size="3x"
+            style={{
+              color: this.state.isHovered ? this.props.color : ""
+            }}
           />
         </a>
       </div>

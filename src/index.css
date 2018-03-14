@@ -35,22 +35,6 @@ a:hover {
   color: black;
 }
 
-a:active {
-  color: cyan;
-}
-
-.github a:active {
-  color: white;
-}
-
-.linkedin a:active {
-  color: #0073b1;
-}
-
-.resume a:active {
-  color: #3e94e4;
-}
-
 /* page load animations */
 @keyframes fadein {
   from {

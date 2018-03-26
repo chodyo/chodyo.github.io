@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Introduction, Tagline, SocialButtons } from "./components";
 
 const introduction = "Hi, my name is Cody!";
-const tags = ["Technophile", "Father", "Hobbyist Woodcrafter", "Developer"];
+const tags = ["Technophile", "Mentor", "Hobbyist Woodcrafter", "Developer"];
 const links = [
   {
     name: "github",

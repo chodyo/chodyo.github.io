@@ -43,7 +43,10 @@ class SocialButton extends Component {
     return (
       <div
         className={"SocialButton " + this.props.name}
-        style={{ ...style, ...{ display: this.props.display } }}
+        style={{
+          ...style,
+          ...{ display: this.props.display ? "inline-block" : "none" },
+        }}
         onMouseEnter={() => this.setButtonHovered(true)}
         onMouseLeave={() => this.setButtonHovered(false)}
       >

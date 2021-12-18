@@ -8,7 +8,7 @@ export class SocialButtons extends Component {
         className="container SocialButtons"
         style={{ animationDelay: this.props.delay + "s" }}
       >
-        {this.props.links.map(function(object, i) {
+        {this.props.links.map(function (object, i) {
           return (
             <SocialButton
               key={i}
@@ -16,6 +16,7 @@ export class SocialButtons extends Component {
               icon={object.faIcon}
               color={object.iconActiveColor}
               link={object.url}
+              display={object.display}
             />
           );
         })}
@@ -25,8 +26,7 @@ export class SocialButtons extends Component {
 }
 
 const style = {
-  display: "inline-block",
-  margin: "0em 0.5em"
+  margin: "0em 0.5em",
 };
 
 class SocialButton extends Component {
@@ -35,7 +35,7 @@ class SocialButton extends Component {
     this.state = { isHovered: false };
   }
 
-  setButtonHovered = isHovered => {
+  setButtonHovered = (isHovered) => {
     this.setState({ isHovered: isHovered });
   };
 
@@ -43,7 +43,10 @@ class SocialButton extends Component {
     return (
       <div
         className={"SocialButton " + this.props.name}
-        style={style}
+        style={{
+          ...style,
+          ...{ display: this.props.display ? "inline-block" : "none" },
+        }}
         onMouseEnter={() => this.setButtonHovered(true)}
         onMouseLeave={() => this.setButtonHovered(false)}
       >
@@ -53,7 +56,7 @@ class SocialButton extends Component {
             className={this.props.name}
             size="3x"
             style={{
-              color: this.state.isHovered ? this.props.color : ""
+              color: this.state.isHovered ? this.props.color : "",
             }}
           />
         </a>

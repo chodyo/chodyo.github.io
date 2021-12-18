@@ -9,24 +9,28 @@ const links = [
     faIcon: "github",
     iconActiveColor: "white",
     url: "https://www.github.com/chodyo",
+    display: true,
   },
   {
     name: "linkedin",
     faIcon: "linkedin-square",
     iconActiveColor: "#0073b1",
     url: "https://www.linkedin.com/in/cody-heffner/",
+    display: true,
   },
   {
     name: "twitter",
     faIcon: "twitter-square",
     iconActiveColor: "#1da1f2",
     url: "https://www.twitter.com/cnheffner",
+    display: true,
   },
   {
     name: "resume",
     faIcon: "file-text",
     iconActiveColor: "#3e94e4",
     url: "https://www.visualcv.com/cody-heffner",
+    display: false,
   },
 ];
 

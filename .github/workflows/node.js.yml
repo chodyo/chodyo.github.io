@@ -31,6 +31,8 @@ jobs:
             - name: Deploy
               if: github.event_name != 'pull_request'
               run: |
+                  if [[ -z "${user_name}" ]]; then echo "yes user name" else "no user name" fi
+                  if [[ -z "${github_token}" ]]; then echo "yes github token" else "no github token" fi
                   git config --global user.name $user_name
                   git config --global user.email $user_email
                   git remote set-url origin https://${user_name}:${github_token}@github.com/${repository}

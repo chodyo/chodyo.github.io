@@ -29,7 +29,7 @@ jobs:
             - run: yarn run test
 
             - name: Deploy
-              if: github.event_name != 'pull_request'
+              #   if: github.event_name != 'pull_request'
               run: |
                   if [[ -z "${user_name}" ]]; then echo "yes user name" else "no user name" fi
                   if [[ -z "${github_token}" ]]; then echo "yes github token" else "no github token" fi

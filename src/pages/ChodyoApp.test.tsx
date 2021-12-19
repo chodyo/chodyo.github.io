@@ -2,8 +2,8 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import ChodyoApp from "./ChodyoApp";
 
-test("renders learn react link", () => {
-  render(<ChodyoApp />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test("renders a nice greeting", () => {
+    render(<ChodyoApp />);
+    const greetingElement = screen.getByText("Hi, my name is Cody!");
+    expect(greetingElement).toBeInTheDocument();
 });

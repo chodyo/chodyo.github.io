@@ -30,7 +30,7 @@ jobs:
             - run: yarn run test
 
             - name: Deploy
-                if: github.event_name != 'pull_request'
+              if: github.event_name != 'pull_request'
               run: |
                   git config --global user.name $user_name
                   git config --global user.email $user_email

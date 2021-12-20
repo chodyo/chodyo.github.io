@@ -125,8 +125,8 @@ export const Page: React.FC = () => {
     };
 
     return (
-        <Form onSubmit={handleSubmit} className="col-centered room-to-breathe">
-            <Row>
+        <Form onSubmit={handleSubmit} className="col-centered">
+            <Row className="room-to-breathe">
                 <Col md={{ span: 6, offset: 3 }}>
                     <h1>Unofficial Health Screener Submission</h1>
                     <h2>For Your Students</h2>

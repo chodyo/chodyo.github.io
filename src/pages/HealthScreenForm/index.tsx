@@ -11,7 +11,7 @@ export const Page: React.FC = () => {
     document.title = "Submit Health Screen";
 
     const [students, setStudents] = useState([]);
-    const [email, setEmail] = useState([]);
+    const [email, setEmail] = useState();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -56,10 +56,9 @@ export const Page: React.FC = () => {
     };
 
     return (
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} className="col-centered">
             <Row>
-                <Col xl={true} />
-                <Col xl={true}>
+                <Col md={{ span: 6, offset: 3 }}>
                     <h1>Unofficial Health Screener Submission</h1>
                     <h2>For Your Students</h2>
 
@@ -106,7 +105,6 @@ export const Page: React.FC = () => {
                         Submit
                     </Button>
                 </Col>
-                <Col xl={true} />
             </Row>
         </Form>
     );

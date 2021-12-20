@@ -44,3 +44,13 @@ a:hover {
         opacity: 1;
     }
 }
+
+.col-centered {
+    /* make screen not wiggle */
+    width: 92%;
+
+    /* get rid of bootstrap's floating and use the margin technique */
+    /* https://stackoverflow.com/a/32345267/8553556 */
+    float: none;
+    margin: 0 auto;
+}

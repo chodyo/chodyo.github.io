@@ -71,3 +71,8 @@ body::-webkit-scrollbar-thumb {
     border-radius: 0.3em; /* roundness of the scroll thumb */
     /* border: 3px solid orange; creates padding around scroll thumb */
 }
+
+/* cool loading bar */
+/* https://codepen.io/bseth99/pen/BmHcF */
+.progress-bar.animate {
+}

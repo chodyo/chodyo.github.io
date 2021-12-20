@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, Modal } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import ProgressBar from "react-bootstrap/ProgressBar";
+
+import { LoadingIcon, SuccessIcon, ErrorIcon } from "../../components/Icons";
 
 // https://dev.to/fuchodeveloper/dynamic-form-fields-in-react-1h6c
 
@@ -25,13 +28,44 @@ interface fields {
 export const Page: React.FC = () => {
     document.title = "Submit Health Screen";
 
+    const [showModal, setShowModal] = useState(false);
+    const [submittable, setSubmittable] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
+    const [submittingResults, setSubmittingResults] = useState(new Map());
     const [fields, setInputFields] = useState<fields>({
         email: "",
         students: [],
     });
 
+    const handleModalClose = () => {
+        setShowModal(false);
+        setSubmittable(true);
+        setSubmitting(false);
+        setSubmittingResults(new Map());
+    };
+
+    const handleSubmittingBegin = () => {
+        console.debug("handleSubmittingBegin::");
+        setSubmittable(false);
+        setSubmitting(true);
+        setSubmittingResults(new Map());
+        setShowModal(true);
+    };
+
+    const handleSubmittingResult = (firstName: string, succeeded: boolean) => {
+        console.debug("handleSubmittingResult::", firstName, succeeded);
+        const resultsMap = submittingResults;
+        resultsMap.set(firstName, succeeded);
+        setSubmittingResults(resultsMap);
+    };
+
+    const handleSubmittingDone = () => {
+        console.debug("handleSubmittingDone::");
+        setSubmitting(false);
+    };
+
     const handleAddStudent = () => {
-        console.log("handleAddStudent::", JSON.stringify(fields));
+        console.debug("handleAddStudent::", JSON.stringify(fields));
         const students = [...fields.students];
         students.push({ firstName: "", lastName: "", floor: "", location: "" });
         setInputFields({
@@ -41,7 +75,7 @@ export const Page: React.FC = () => {
     };
 
     const handleRemoveStudent = (i: number) => {
-        console.log("handleRemoveStudent::", JSON.stringify(fields));
+        console.debug("handleRemoveStudent::", JSON.stringify(fields));
         const students = [...fields.students];
         students.splice(i, 1);
         setInputFields({
@@ -54,7 +88,7 @@ export const Page: React.FC = () => {
         // this is a hack around not being able to find `FormControlElement`
         const target = e.target as HTMLInputElement;
 
-        console.log(
+        console.debug(
             "handleInputChange::",
             target.name,
             target.value,
@@ -78,7 +112,7 @@ export const Page: React.FC = () => {
     };
 
     const handleSubmit = (e: React.FormEvent) => {
-        console.log("handleSubmit::", JSON.stringify(fields));
+        console.debug("handleSubmit::", JSON.stringify(fields));
         e.preventDefault();
 
         if (fields.students.length === 0) {
@@ -86,7 +120,9 @@ export const Page: React.FC = () => {
             return;
         }
 
-        fields.students.forEach((student) => {
+        handleSubmittingBegin();
+
+        const requests = fields.students.map((student, i) => {
             const req = {
                 FirstName: student.firstName,
                 LastName: student.lastName,
@@ -103,7 +139,12 @@ export const Page: React.FC = () => {
                 ConsentType: "",
             };
 
-            console.log("req sent", JSON.stringify(req));
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    handleSubmittingResult(student.firstName, true);
+                    resolve(1);
+                }, (i + 1) * 5000 * Math.random());
+            });
 
             // fetch("https://healthscreening.schools.nyc/home/submit", {
             //     method: "POST",
@@ -122,6 +163,11 @@ export const Page: React.FC = () => {
             //         alert(`Error, ${error}`);
             //     });
         });
+
+        Promise.all(requests)
+            .then((response) => console.debug(response))
+            .catch((error) => console.error("failed to send requests", error))
+            .finally(() => handleSubmittingDone());
     };
 
     return (
@@ -159,6 +205,7 @@ export const Page: React.FC = () => {
                                     id="firstName"
                                     name="firstName"
                                     value={student.firstName}
+                                    required={true}
                                     onChange={(e) => handleInputChange(i, e)}
                                 />
                             </Form.Group>
@@ -172,6 +219,7 @@ export const Page: React.FC = () => {
                                     id="lastName"
                                     name="lastName"
                                     value={student.lastName}
+                                    required={true}
                                     onChange={(e) => handleInputChange(i, e)}
                                 />
                             </Form.Group>
@@ -185,6 +233,7 @@ export const Page: React.FC = () => {
                                     id="floor"
                                     name="floor"
                                     value={student.floor}
+                                    required={true}
                                     onChange={(e) => handleInputChange(i, e)}
                                 />
                             </Form.Group>
@@ -199,11 +248,14 @@ export const Page: React.FC = () => {
                                     name="location"
                                     value={student.location}
                                     placeholder="M217 for PS/IS 217"
+                                    required={true}
                                     onChange={(e) => handleInputChange(i, e)}
                                 />
                             </Form.Group>
 
                             <Button
+                                variant="outline-secondary"
+                                size="sm"
                                 className="room-to-breathe"
                                 onClick={() => handleRemoveStudent(i)}
                             >
@@ -220,7 +272,10 @@ export const Page: React.FC = () => {
                             borderBottom: "2px solid rgba(0, 0, 0, 0.1)",
                         }}
                     >
-                        <Button onClick={() => handleAddStudent()}>
+                        <Button
+                            variant="outline-primary"
+                            onClick={() => handleAddStudent()}
+                        >
                             Add another student
                         </Button>
                     </div>
@@ -254,14 +309,69 @@ export const Page: React.FC = () => {
                     </Form.Group>
 
                     <Button
-                        className="room-to-breathe"
+                        disabled={!submittable}
                         variant="primary"
+                        size="lg"
+                        className="room-to-breathe"
                         type="submit"
                     >
                         Submit
                     </Button>
                 </Col>
             </Row>
+
+            <Modal show={showModal} onHide={handleModalClose} centered>
+                <Modal.Body>
+                    <ProgressBar animated={submitting}>
+                        {fields.students.map((student, i) => (
+                            <ProgressBar
+                                key={i + 1}
+                                variant={
+                                    submittingResults.has(student.firstName)
+                                        ? submittingResults.get(
+                                              student.firstName
+                                          )
+                                            ? "success"
+                                            : "danger"
+                                        : "warning"
+                                }
+                                animated={submitting}
+                                now={100 / fields.students.length}
+                            />
+                        ))}
+                    </ProgressBar>
+                    <dl className="row room-to-breathe">
+                        {fields.students.map((student, i) => {
+                            return (
+                                <Row>
+                                    <Col xs={{ span: 6, offset: 2 }}>
+                                        <dt style={{ textAlign: "left" }}>
+                                            {student.firstName}
+                                        </dt>
+                                    </Col>
+                                    <Col xs={{ span: 2, offset: -2 }}>
+                                        <dd style={{ textAlign: "right" }}>
+                                            {submittingResults.has(
+                                                student.firstName
+                                            ) ? (
+                                                submittingResults.get(
+                                                    student.firstName
+                                                ) ? (
+                                                    <SuccessIcon />
+                                                ) : (
+                                                    <ErrorIcon />
+                                                )
+                                            ) : (
+                                                <LoadingIcon />
+                                            )}
+                                        </dd>
+                                    </Col>
+                                </Row>
+                            );
+                        })}
+                    </dl>
+                </Modal.Body>
+            </Modal>
         </Form>
     );
 };

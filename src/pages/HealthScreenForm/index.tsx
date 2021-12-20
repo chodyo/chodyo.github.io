@@ -25,6 +25,8 @@ interface fields {
     students: student[];
 }
 
+const localStorageKey = "healthScreenFormFields";
+
 export const Page: React.FC = () => {
     document.title = "Submit Health Screen";
 
@@ -37,7 +39,13 @@ export const Page: React.FC = () => {
         students: [],
     });
 
+    useEffect(() => {
+        console.debug("useEffect::");
+        loadFromLocalStorage();
+    }, []);
+
     const handleModalClose = () => {
+        console.debug("handleModalClose::");
         setShowModal(false);
         setSubmittable(true);
         setSubmitting(false);
@@ -46,6 +54,7 @@ export const Page: React.FC = () => {
 
     const handleSubmittingBegin = () => {
         console.debug("handleSubmittingBegin::");
+        saveToLocalStorage();
         setSubmittable(false);
         setSubmitting(true);
         setSubmittingResults(new Map());
@@ -168,6 +177,20 @@ export const Page: React.FC = () => {
             .then((response) => console.debug(response))
             .catch((error) => console.error("failed to send requests", error))
             .finally(() => handleSubmittingDone());
+    };
+
+    const saveToLocalStorage = () => {
+        console.debug("saveToLocalStorage::");
+        localStorage.setItem(localStorageKey, JSON.stringify(fields));
+    };
+
+    const loadFromLocalStorage = () => {
+        console.debug("loadFromLocalStorage::");
+        const fields =
+            localStorage.getItem(localStorageKey) ||
+            `{"email": "","students": []}`;
+        const parsedFields = JSON.parse(fields);
+        setInputFields(parsedFields);
     };
 
     return (

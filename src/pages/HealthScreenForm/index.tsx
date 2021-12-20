@@ -214,18 +214,25 @@ export const Page: React.FC = () => {
 
                     {fields.students.map((student, i) => (
                         <div
+                            key={"student-" + i}
                             className="room-to-breathe"
                             style={{
                                 borderTop: "2px solid rgba(0, 0, 0, 0.1)",
                             }}
                         >
-                            <Form.Group className="room-to-breathe">
-                                <Form.Label htmlFor="firstName">
+                            <Form.Group
+                                key={"firstName-" + i}
+                                className="room-to-breathe"
+                            >
+                                <Form.Label
+                                    key={"firstName-label-" + i}
+                                    htmlFor="firstName"
+                                >
                                     Student's first name
                                 </Form.Label>
                                 <Form.Control
                                     type="text"
-                                    id="firstName"
+                                    key={"firstName-control-" + i}
                                     name="firstName"
                                     value={student.firstName}
                                     required={true}
@@ -233,13 +240,19 @@ export const Page: React.FC = () => {
                                 />
                             </Form.Group>
 
-                            <Form.Group className="room-to-breathe">
-                                <Form.Label htmlFor="lastName">
+                            <Form.Group
+                                key={"lastName-" + i}
+                                className="room-to-breathe"
+                            >
+                                <Form.Label
+                                    key={"lastName-label-" + i}
+                                    htmlFor="lastName"
+                                >
                                     Student's last name
                                 </Form.Label>
                                 <Form.Control
                                     type="text"
-                                    id="lastName"
+                                    key={"lastName-control-" + i}
                                     name="lastName"
                                     value={student.lastName}
                                     required={true}
@@ -247,13 +260,19 @@ export const Page: React.FC = () => {
                                 />
                             </Form.Group>
 
-                            <Form.Group className="room-to-breathe">
-                                <Form.Label htmlFor="floor">
+                            <Form.Group
+                                key={"floor-" + i}
+                                className="room-to-breathe"
+                            >
+                                <Form.Label
+                                    key={"floor-label-" + i}
+                                    htmlFor="floor"
+                                >
                                     Student's classroom floor
                                 </Form.Label>
                                 <Form.Control
                                     type="number"
-                                    id="floor"
+                                    key={"floor-control-" + i}
                                     name="floor"
                                     value={student.floor}
                                     required={true}
@@ -261,13 +280,19 @@ export const Page: React.FC = () => {
                                 />
                             </Form.Group>
 
-                            <Form.Group className="room-to-breathe">
-                                <Form.Label htmlFor="location">
+                            <Form.Group
+                                key={"location-" + i}
+                                className="room-to-breathe"
+                            >
+                                <Form.Label
+                                    key={"location-label" + i}
+                                    htmlFor="location"
+                                >
                                     School location code
                                 </Form.Label>
                                 <Form.Control
                                     type="text"
-                                    id="location"
+                                    key={"location-control" + i}
                                     name="location"
                                     value={student.location}
                                     placeholder="M217 for PS/IS 217"
@@ -279,6 +304,7 @@ export const Page: React.FC = () => {
                             <Button
                                 variant="outline-secondary"
                                 size="sm"
+                                key={"remove-" + i}
                                 className="room-to-breathe"
                                 onClick={() => handleRemoveStudent(i)}
                             >
@@ -348,7 +374,7 @@ export const Page: React.FC = () => {
                     <ProgressBar animated={submitting}>
                         {fields.students.map((student, i) => (
                             <ProgressBar
-                                key={i + 1}
+                                key={"progress-" + i}
                                 variant={
                                     submittingResults.has(student.firstName)
                                         ? submittingResults.get(
@@ -366,26 +392,55 @@ export const Page: React.FC = () => {
                     <dl className="row room-to-breathe">
                         {fields.students.map((student, i) => {
                             return (
-                                <Row>
-                                    <Col xs={{ span: 6, offset: 2 }}>
-                                        <dt style={{ textAlign: "left" }}>
+                                <Row key={"student-status-row-" + i}>
+                                    <Col
+                                        xs={{ span: 6, offset: 2 }}
+                                        key={"student-status-name-col-" + i}
+                                    >
+                                        <dt
+                                            style={{ textAlign: "left" }}
+                                            key={"student-status-name-dt-" + i}
+                                        >
                                             {student.firstName}
                                         </dt>
                                     </Col>
-                                    <Col xs={{ span: 2, offset: -2 }}>
-                                        <dd style={{ textAlign: "right" }}>
+                                    <Col
+                                        xs={{ span: 2, offset: -2 }}
+                                        key={"student-status-result-col-" + i}
+                                    >
+                                        <dd
+                                            style={{ textAlign: "right" }}
+                                            key={
+                                                "student-status-result-dd-" + i
+                                            }
+                                        >
                                             {submittingResults.has(
                                                 student.firstName
                                             ) ? (
                                                 submittingResults.get(
                                                     student.firstName
                                                 ) ? (
-                                                    <SuccessIcon />
+                                                    <SuccessIcon
+                                                        key={
+                                                            "student-status-result-success-" +
+                                                            i
+                                                        }
+                                                    />
                                                 ) : (
-                                                    <ErrorIcon />
+                                                    <ErrorIcon
+                                                        key={
+                                                            "student-status-result-error-" +
+                                                            i
+                                                        }
+                                                    />
                                                 )
                                             ) : (
-                                                <LoadingIcon />
+                                                <LoadingIcon
+                                                    key={
+                                                        "student-status-result-loading-" +
+                                                        i
+                                                    }
+                                                />
                                             )}
                                         </dd>
                                     </Col>

@@ -5,6 +5,8 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+// https://dev.to/fuchodeveloper/dynamic-form-fields-in-react-1h6c
+
 interface student {
     firstName: string;
     lastName: string;
@@ -80,7 +82,7 @@ export const Page: React.FC = () => {
         e.preventDefault();
 
         if (fields.students.length === 0) {
-            alert("Click the + button to add student information.");
+            alert("You must provide information for at least one student.");
             return;
         }
 
@@ -123,11 +125,7 @@ export const Page: React.FC = () => {
     };
 
     return (
-        <Form
-            onSubmit={handleSubmit}
-            className="col-centered"
-            style={{ marginTop: "1em" }}
-        >
+        <Form onSubmit={handleSubmit} className="col-centered room-to-breathe">
             <Row>
                 <Col md={{ span: 6, offset: 3 }}>
                     <h1>Unofficial Health Screener Submission</h1>
@@ -140,16 +138,16 @@ export const Page: React.FC = () => {
                             id="email"
                             name="email"
                             value={fields.email}
+                            required={true}
                             onChange={(e) => handleInputChange(0, e)}
                         />
                     </Form.Group>
 
                     {fields.students.map((student, i) => (
                         <div
+                            className="room-to-breathe"
                             style={{
                                 borderTop: "2px solid rgba(0, 0, 0, 0.1)",
-                                padding: "1em",
-                                margin: "1em 0em",
                             }}
                         >
                             <Form.Group className="room-to-breathe">
@@ -214,12 +212,18 @@ export const Page: React.FC = () => {
                         </div>
                     ))}
 
-                    <Button
-                        onClick={() => handleAddStudent()}
-                        style={{ margin: "1em 0em" }}
+                    <div
+                        className="room-to-breathe"
+                        style={{
+                            padding: "1em 0em",
+                            borderTop: "2px solid rgba(0, 0, 0, 0.1)",
+                            borderBottom: "2px solid rgba(0, 0, 0, 0.1)",
+                        }}
                     >
-                        Add student
-                    </Button>
+                        <Button onClick={() => handleAddStudent()}>
+                            Add another student
+                        </Button>
+                    </div>
 
                     <Form.Group>
                         <Form.Label>
@@ -250,9 +254,9 @@ export const Page: React.FC = () => {
                     </Form.Group>
 
                     <Button
+                        className="room-to-breathe"
                         variant="primary"
                         type="submit"
-                        style={{ margin: "1em 0em" }}
                     >
                         Submit
                     </Button>

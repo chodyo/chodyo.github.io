@@ -97,12 +97,7 @@ export const Page: React.FC = () => {
         // this is a hack around not being able to find `FormControlElement`
         const target = e.target as HTMLInputElement;
 
-        console.debug(
-            "handleInputChange::",
-            target.name,
-            target.value,
-            JSON.stringify(fields)
-        );
+        console.debug("handleInputChange::", target.name, target.value, JSON.stringify(fields));
 
         if (target.name === "email") {
             setInputFields({
@@ -186,9 +181,7 @@ export const Page: React.FC = () => {
 
     const loadFromLocalStorage = () => {
         console.debug("loadFromLocalStorage::");
-        const fields =
-            localStorage.getItem(localStorageKey) ||
-            `{"email": "","students": []}`;
+        const fields = localStorage.getItem(localStorageKey) || `{"email": "","students": []}`;
         const parsedFields = JSON.parse(fields);
         setInputFields(parsedFields);
     };
@@ -220,14 +213,8 @@ export const Page: React.FC = () => {
                                 borderTop: "2px solid rgba(0, 0, 0, 0.1)",
                             }}
                         >
-                            <Form.Group
-                                key={"firstName-" + i}
-                                className="room-to-breathe"
-                            >
-                                <Form.Label
-                                    key={"firstName-label-" + i}
-                                    htmlFor="firstName"
-                                >
+                            <Form.Group key={"firstName-" + i} className="room-to-breathe">
+                                <Form.Label key={"firstName-label-" + i} htmlFor="firstName">
                                     Student's first name
                                 </Form.Label>
                                 <Form.Control
@@ -240,14 +227,8 @@ export const Page: React.FC = () => {
                                 />
                             </Form.Group>
 
-                            <Form.Group
-                                key={"lastName-" + i}
-                                className="room-to-breathe"
-                            >
-                                <Form.Label
-                                    key={"lastName-label-" + i}
-                                    htmlFor="lastName"
-                                >
+                            <Form.Group key={"lastName-" + i} className="room-to-breathe">
+                                <Form.Label key={"lastName-label-" + i} htmlFor="lastName">
                                     Student's last name
                                 </Form.Label>
                                 <Form.Control
@@ -260,14 +241,8 @@ export const Page: React.FC = () => {
                                 />
                             </Form.Group>
 
-                            <Form.Group
-                                key={"floor-" + i}
-                                className="room-to-breathe"
-                            >
-                                <Form.Label
-                                    key={"floor-label-" + i}
-                                    htmlFor="floor"
-                                >
+                            <Form.Group key={"floor-" + i} className="room-to-breathe">
+                                <Form.Label key={"floor-label-" + i} htmlFor="floor">
                                     Student's classroom floor
                                 </Form.Label>
                                 <Form.Control
@@ -280,14 +255,8 @@ export const Page: React.FC = () => {
                                 />
                             </Form.Group>
 
-                            <Form.Group
-                                key={"location-" + i}
-                                className="room-to-breathe"
-                            >
-                                <Form.Label
-                                    key={"location-label" + i}
-                                    htmlFor="location"
-                                >
+                            <Form.Group key={"location-" + i} className="room-to-breathe">
+                                <Form.Label key={"location-label" + i} htmlFor="location">
                                     School location code
                                 </Form.Label>
                                 <Form.Control
@@ -321,39 +290,25 @@ export const Page: React.FC = () => {
                             borderBottom: "2px solid rgba(0, 0, 0, 0.1)",
                         }}
                     >
-                        <Button
-                            variant="outline-primary"
-                            onClick={() => handleAddStudent()}
-                        >
+                        <Button variant="outline-primary" onClick={() => handleAddStudent()}>
                             Add another student
                         </Button>
                     </div>
 
                     <Form.Group>
-                        <Form.Label>
-                            By clicking submit, you affirm that:
-                        </Form.Label>
+                        <Form.Label>By clicking submit, you affirm that:</Form.Label>
                         <ListGroup as="ol" numbered>
+                            <ListGroup.Item>Your student is not experiencing any symptoms of COVID-19.</ListGroup.Item>
                             <ListGroup.Item>
-                                Your student is not experiencing any symptoms of
-                                COVID-19.
+                                Your student has not tested positive for COVID-19 in the past 10 days.
                             </ListGroup.Item>
                             <ListGroup.Item>
-                                Your student has not tested positive for
-                                COVID-19 in the past 10 days.
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                                Your student is considered fully vaccinated
-                                against COVID-19 by CDC guidelines.
+                                Your student is considered fully vaccinated against COVID-19 by CDC guidelines.
                             </ListGroup.Item>
                         </ListGroup>
                         <Form.Text>
-                            If any of the above conditons do not apply to you,
-                            please use the{" "}
-                            <a href="https://healthscreening.schools.nyc/">
-                                official health screener
-                            </a>{" "}
-                            instead.
+                            If any of the above conditons do not apply to you, please use the{" "}
+                            <a href="https://healthscreening.schools.nyc/">official health screener</a> instead.
                         </Form.Text>
                     </Form.Group>
 
@@ -377,9 +332,7 @@ export const Page: React.FC = () => {
                                 key={"progress-" + i}
                                 variant={
                                     submittingResults.has(student.firstName)
-                                        ? submittingResults.get(
-                                              student.firstName
-                                          )
+                                        ? submittingResults.get(student.firstName)
                                             ? "success"
                                             : "danger"
                                         : "warning"
@@ -393,54 +346,21 @@ export const Page: React.FC = () => {
                         {fields.students.map((student, i) => {
                             return (
                                 <Row key={"student-status-row-" + i}>
-                                    <Col
-                                        xs={{ span: 6, offset: 2 }}
-                                        key={"student-status-name-col-" + i}
-                                    >
-                                        <dt
-                                            style={{ textAlign: "left" }}
-                                            key={"student-status-name-dt-" + i}
-                                        >
+                                    <Col xs={{ span: 6, offset: 2 }} key={"student-status-name-col-" + i}>
+                                        <dt style={{ textAlign: "left" }} key={"student-status-name-dt-" + i}>
                                             {student.firstName}
                                         </dt>
                                     </Col>
-                                    <Col
-                                        xs={{ span: 2, offset: -2 }}
-                                        key={"student-status-result-col-" + i}
-                                    >
-                                        <dd
-                                            style={{ textAlign: "right" }}
-                                            key={
-                                                "student-status-result-dd-" + i
-                                            }
-                                        >
-                                            {submittingResults.has(
-                                                student.firstName
-                                            ) ? (
-                                                submittingResults.get(
-                                                    student.firstName
-                                                ) ? (
-                                                    <SuccessIcon
-                                                        key={
-                                                            "student-status-result-success-" +
-                                                            i
-                                                        }
-                                                    />
+                                    <Col xs={{ span: 2, offset: -2 }} key={"student-status-result-col-" + i}>
+                                        <dd style={{ textAlign: "right" }} key={"student-status-result-dd-" + i}>
+                                            {submittingResults.has(student.firstName) ? (
+                                                submittingResults.get(student.firstName) ? (
+                                                    <SuccessIcon key={"student-status-result-success-" + i} />
                                                 ) : (
-                                                    <ErrorIcon
-                                                        key={
-                                                            "student-status-result-error-" +
-                                                            i
-                                                        }
-                                                    />
+                                                    <ErrorIcon key={"student-status-result-error-" + i} />
                                                 )
                                             ) : (
-                                                <LoadingIcon
-                                                    key={
-                                                        "student-status-result-loading-" +
-                                                        i
-                                                    }
-                                                />
+                                                <LoadingIcon key={"student-status-result-loading-" + i} />
                                             )}
                                         </dd>
                                     </Col>

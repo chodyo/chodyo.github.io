@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { HashRouter, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./Home";
 import HealthScreenForm from "./HealthScreenForm";
 
@@ -25,9 +25,9 @@ const AppRouter: React.FC = () => {
 
 const ChodyoApp: React.FC = () => {
     return (
-        <BrowserRouter>
+        <HashRouter>
             <App />
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 

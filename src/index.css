@@ -44,3 +44,35 @@ a:hover {
         opacity: 1;
     }
 }
+
+.col-centered {
+    /* make screen not wiggle */
+    width: 92%;
+
+    /* get rid of bootstrap's floating and use the margin technique */
+    /* https://stackoverflow.com/a/32345267/8553556 */
+    float: none;
+    margin: 0 auto;
+}
+
+.room-to-breathe {
+    margin: 1em 0em;
+}
+
+/* cool scrollbar */
+body::-webkit-scrollbar {
+    width: 0.5em; /* width of the entire scrollbar */
+}
+body::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0); /* color of the tracking area */
+}
+body::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.7); /* color of the scroll thumb */
+    border-radius: 0.3em; /* roundness of the scroll thumb */
+    /* border: 3px solid orange; creates padding around scroll thumb */
+}
+
+/* cool loading bar */
+/* https://codepen.io/bseth99/pen/BmHcF */
+.progress-bar.animate {
+}

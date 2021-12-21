@@ -27,7 +27,7 @@ interface fields {
 
 const localStorageKey = "healthScreenFormFields";
 
-export const Page: React.FC = () => {
+export const Page: React.FC<{ dryRun: string | null }> = ({ dryRun }) => {
     document.title = "Submit Health Screen";
 
     const [showModal, setShowModal] = useState(false);
@@ -40,9 +40,9 @@ export const Page: React.FC = () => {
     });
 
     useEffect(() => {
-        console.debug("useEffect::");
+        console.debug("useEffect::", "dryRun=", dryRun !== null);
         loadFromLocalStorage();
-    }, []);
+    }, [dryRun]);
 
     const handleModalClose = () => {
         console.debug("handleModalClose::");
@@ -115,6 +115,54 @@ export const Page: React.FC = () => {
         });
     };
 
+    const submit = (student: student, i: number): Promise<void> => {
+        console.debug("submit:: dryRun=", dryRun !== null);
+        if (dryRun !== null) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    handleSubmittingResult(student.firstName, true);
+                    resolve();
+                }, (i + 1) * 5000 * Math.random());
+            });
+        }
+
+        const req = {
+            FirstName: student.firstName,
+            LastName: student.lastName,
+            Email: fields.email,
+            Floor: student.floor,
+            Location: student.location,
+            Type: "G",
+            IsOther: "false",
+            IsStudent: "1",
+            State: "NY",
+            Answer1: "0",
+            Answer2: "0",
+            Answer3: "0",
+            Answer4: "0",
+            ConsentType: "",
+        };
+
+        return fetch("https://healthscreening.schools.nyc/home/submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+            },
+            body: new URLSearchParams(req),
+            mode: "no-cors",
+            // credentials: "same-origin",
+        })
+            .then(() => {
+                console.debug("received successful response from server for name=", student.firstName);
+                handleSubmittingResult(student.firstName, true);
+            })
+            .catch((error) => {
+                console.error("received error response from server for name=", student.firstName);
+                console.error(`error=${error}`);
+                handleSubmittingResult(student.firstName, false);
+            });
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         console.debug("handleSubmit::", JSON.stringify(fields));
         e.preventDefault();
@@ -127,45 +175,7 @@ export const Page: React.FC = () => {
         handleSubmittingBegin();
 
         const requests = fields.students.map((student, i) => {
-            const req = {
-                FirstName: student.firstName,
-                LastName: student.lastName,
-                Email: fields.email,
-                Floor: student.floor,
-                Location: student.location,
-                Type: "G",
-                IsOther: "false",
-                IsStudent: "1",
-                State: "NY",
-                Answer1: "0",
-                Answer2: "0",
-                Answer3: "0",
-                ConsentType: "",
-            };
-
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    handleSubmittingResult(student.firstName, true);
-                    resolve(1);
-                }, (i + 1) * 5000 * Math.random());
-            });
-
-            // fetch("https://healthscreening.schools.nyc/home/submit", {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type":
-            //             "application/x-www-form-urlencoded; charset=UTF-8",
-            //     },
-            //     body: new URLSearchParams(student),
-            //     mode: "no-cors",
-            //     // credentials: "same-origin",
-            // })
-            //     .then((response) => {
-            //         alert(`Response, ${JSON.stringify(response)}`);
-            //     })
-            //     .catch((error) => {
-            //         alert(`Error, ${error}`);
-            //     });
+            return submit(student, i);
         });
 
         Promise.all(requests)

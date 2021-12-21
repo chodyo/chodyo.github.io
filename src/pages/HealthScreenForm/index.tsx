@@ -120,7 +120,7 @@ export const Page: React.FC<{ dryRun: string | null }> = ({ dryRun }) => {
         if (dryRun !== null) {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
-                    handleSubmittingResult(student.firstName, true);
+                    handleSubmittingResult(student.firstName, !!(i % 2));
                     resolve();
                 }, (i + 1) * 5000 * Math.random());
             });
